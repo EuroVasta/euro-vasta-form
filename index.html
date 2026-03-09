@@ -236,6 +236,8 @@
   .req { color: var(--gold); margin-left: 4px; font-size: 14px; }
   .error-msg { display:none; color: #e53935; font-size: 12px; margin-top: 8px; font-weight: 500; }
   .card.invalid { border-color: #e53935; box-shadow: 0 0 0 2px rgba(229,57,53,0.15); }
+
+  .footer-note {
     max-width: 660px;
     margin: 20px auto 0;
     font-size: 12px;
@@ -246,6 +248,8 @@
   /* Thank you */
   #thankyou {
     display: none;
+    flex-direction: column;
+    align-items: center;
     max-width: 660px;
     margin: 60px auto;
     background: var(--white);
@@ -386,7 +390,7 @@
 </div>
 
 <!-- Thank you screen -->
-<div id="thankyou">
+<div id="thankyou" style="display:none">
   <div class="emoji">🎉</div>
   <h2>Thanks for answering!</h2>
   <p>Your response helps us make the Euro Vasta pass better.<br>We really appreciate your time!</p>
@@ -472,7 +476,7 @@
     setTimeout(() => document.body.removeChild(form), 1000);
 
     document.getElementById('main-form').style.display = 'none';
-    document.getElementById('thankyou').style.display = 'block';
+    document.getElementById('thankyou').style.display = 'flex';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
