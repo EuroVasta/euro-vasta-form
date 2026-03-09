@@ -233,7 +233,9 @@
   .btn-submit:hover { background: #22488a; }
   .btn-submit:active { transform: scale(0.98); }
 
-  .footer-note {
+  .req { color: var(--gold); margin-left: 4px; font-size: 14px; }
+  .error-msg { display:none; color: #e53935; font-size: 12px; margin-top: 8px; font-weight: 500; }
+  .card.invalid { border-color: #e53935; box-shadow: 0 0 0 2px rgba(229,57,53,0.15); }
     max-width: 660px;
     margin: 20px auto 0;
     font-size: 12px;
@@ -294,29 +296,31 @@
 
     <!-- Q1 -->
     <div class="card">
-      <p class="q-label"><span class="qnum">1.</span>How often do you travel to other European countries?</p>
+      <p class="q-label"><span class="qnum">1.</span>How often do you travel to other European countries?<span class="req">★</span></p>
       <div class="options">
         <label class="opt"><input type="radio" name="entry.1107029684" value="Never"><div class="bubble"></div><span>Never</span></label>
         <label class="opt"><input type="radio" name="entry.1107029684" value="Once a year or less"><div class="bubble"></div><span>Once a year or less</span></label>
         <label class="opt"><input type="radio" name="entry.1107029684" value="A few times a year"><div class="bubble"></div><span>A few times a year</span></label>
         <label class="opt"><input type="radio" name="entry.1107029684" value="Almost every month"><div class="bubble"></div><span>Almost every month</span></label>
       </div>
+      <p class="error-msg" id="err1">⚠ Please select an option.</p>
     </div>
 
     <!-- Q2 -->
     <div class="card">
-      <p class="q-label"><span class="qnum">2.</span>Have you ever had trouble using public transport in another country? (e.g. didn't understand the tickets, app didn't work, had to pay too much)</p>
+      <p class="q-label"><span class="qnum">2.</span>Have you ever had trouble using public transport in another country? (e.g. didn't understand the tickets, app didn't work, had to pay too much)<span class="req">★</span></p>
       <div class="options">
         <label class="opt"><input type="radio" name="entry.20274385" value="Yes, it was a real problem"><div class="bubble"></div><span>Yes, it was a real problem</span></label>
         <label class="opt"><input type="radio" name="entry.20274385" value="It was a bit confusing but okay"><div class="bubble"></div><span>It was a bit confusing but okay</span></label>
         <label class="opt"><input type="radio" name="entry.20274385" value="No, it was fine"><div class="bubble"></div><span>No, it was fine</span></label>
         <label class="opt"><input type="radio" name="entry.20274385" value="I've never used transport abroad"><div class="bubble"></div><span>I've never used transport abroad</span></label>
       </div>
+      <p class="error-msg" id="err2">⚠ Please select an option.</p>
     </div>
 
     <!-- Q3 -->
     <div class="card">
-      <p class="q-label"><span class="qnum">3.</span>Which types of transport do you use the most when traveling? <em style="font-weight:300;color:var(--muted)">(pick all that apply)</em></p>
+      <p class="q-label"><span class="qnum">3.</span>Which types of transport do you use the most when traveling? <em style="font-weight:300;color:var(--muted)">(pick all that apply)</em><span class="req">★</span></p>
       <div class="options">
         <label class="opt"><input type="checkbox" name="entry.340295532" value="Bus"><div class="bubble-sq"></div><span>🚌 Bus</span></label>
         <label class="opt"><input type="checkbox" name="entry.340295532" value="Metro"><div class="bubble-sq"></div><span>🚇 Metro / Subway</span></label>
@@ -324,22 +328,24 @@
         <label class="opt"><input type="checkbox" name="entry.340295532" value="Train"><div class="bubble-sq"></div><span>🚆 Train</span></label>
         <label class="opt"><input type="checkbox" name="entry.340295532" value="Ferry"><div class="bubble-sq"></div><span>⛴️ Ferry / Boat</span></label>
       </div>
+      <p class="error-msg" id="err3">⚠ Please select at least one option.</p>
     </div>
 
     <!-- Q4 -->
     <div class="card">
-      <p class="q-label"><span class="qnum">4.</span>Would you use a single pass (app or physical card) that works on all public transport across Europe?</p>
+      <p class="q-label"><span class="qnum">4.</span>Would you use a single pass (app or physical card) that works on all public transport across Europe?<span class="req">★</span></p>
       <div class="options">
         <label class="opt"><input type="radio" name="entry.1958740133" value="Yes, for sure!"><div class="bubble"></div><span>Yes, for sure!</span></label>
         <label class="opt"><input type="radio" name="entry.1958740133" value="Maybe, depends on the price"><div class="bubble"></div><span>Maybe, depends on the price</span></label>
         <label class="opt"><input type="radio" name="entry.1958740133" value="Not sure"><div class="bubble"></div><span>Not sure</span></label>
         <label class="opt"><input type="radio" name="entry.1958740133" value="No, I don't think i'd need it"><div class="bubble"></div><span>No, I don't think i'd need it</span></label>
       </div>
+      <p class="error-msg" id="err4">⚠ Please select an option.</p>
     </div>
 
     <!-- Q5 – Dropdown -->
     <div class="card">
-      <p class="q-label"><span class="qnum">5.</span>Which version of the pass would you prefer?</p>
+      <p class="q-label"><span class="qnum">5.</span>Which version of the pass would you prefer?<span class="req">★</span></p>
       <select name="entry.1690466985">
         <option value="" disabled selected>Choose an option…</option>
         <option value="App only">📱 App only</option>
@@ -347,11 +353,12 @@
         <option value="Both">Both – I'd like to choose</option>
         <option value="Doesn't matter to me">Doesn't matter to me</option>
       </select>
+      <p class="error-msg" id="err5">⚠ Please choose an option.</p>
     </div>
 
     <!-- Q6 – Scale -->
     <div class="card">
-      <p class="q-label"><span class="qnum">6.</span>How useful do you think this idea is? (1 = not useful at all, 5 = super useful)</p>
+      <p class="q-label"><span class="qnum">6.</span>How useful do you think this idea is? (1 = not useful at all, 5 = super useful)<span class="req">★</span></p>
       <div class="scale-row">
         <label class="scale-opt"><span>1</span><input type="radio" name="entry.1322438797" value="1"><div class="scale-dot">1</div></label>
         <label class="scale-opt"><span>2</span><input type="radio" name="entry.1322438797" value="2"><div class="scale-dot">2</div></label>
@@ -360,6 +367,7 @@
         <label class="scale-opt"><span>5</span><input type="radio" name="entry.1322438797" value="5"><div class="scale-dot">5</div></label>
       </div>
       <div class="scale-labels"><span>Not useful</span><span>Super useful</span></div>
+      <p class="error-msg" id="err6">⚠ Please select a rating.</p>
     </div>
 
     <!-- Q7 – Short answer -->
@@ -390,6 +398,30 @@
   const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSdguoxl3xMyzTTk45n9J8Z__m0xGSG6uQXDGy6_SCL6tHHS0A/formResponse";
 
   function submitForm() {
+    let valid = true;
+
+    function check(id, condition, cardIndex) {
+      const err = document.getElementById(id);
+      const card = err.closest('.card');
+      if (!condition) {
+        err.style.display = 'block';
+        card.classList.add('invalid');
+        if (valid) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        valid = false;
+      } else {
+        err.style.display = 'none';
+        card.classList.remove('invalid');
+      }
+    }
+
+    check('err1', document.querySelector('input[name="entry.1107029684"]:checked'));
+    check('err2', document.querySelector('input[name="entry.20274385"]:checked'));
+    check('err3', document.querySelectorAll('input[name="entry.340295532"]:checked').length > 0);
+    check('err4', document.querySelector('input[name="entry.1958740133"]:checked'));
+    check('err5', document.querySelector('select[name="entry.1690466985"]').value !== '');
+    check('err6', document.querySelector('input[name="entry.1322438797"]:checked'));
+
+    if (!valid) return;
     // Build a real <form> dynamically so we can append multiple inputs with the same name (needed for checkboxes)
     const form = document.createElement('form');
     form.action = FORM_ACTION;
