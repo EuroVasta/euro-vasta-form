@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euro Vasta – Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1a3a6b;
+    --gold: #e8a820;
+    --light: #f4f6fb;
+    --white: #ffffff;
+    --border: #d0d7e8;
+    --text: #1e2535;
+    --muted: #6b7695;
+    --radio-active: #1a3a6b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 16px 80px;
+  }
+
+  .header-card {
+    background: var(--blue);
+    border-radius: 16px 16px 0 0;
+    padding: 36px 36px 28px;
+    border-left: 8px solid var(--gold);
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .header-card .logo { height: 64px; margin-bottom: 12px; display: block; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18)); }
+  .header-card h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .header-card h1 span { color: var(--gold); }
+  .header-card p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #a8b8d8;
+    line-height: 1.6;
+  }
+
+  .form-wrap {
+    max-width: 660px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 28px 32px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(26,58,107,0.06);
+    transition: box-shadow 0.2s;
+  }
+  .card:focus-within { box-shadow: 0 4px 18px rgba(26,58,107,0.13); }
+
+  .q-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .q-label .qnum {
+    color: var(--gold);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  /* Radio & Checkbox */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 14px;
+    user-select: none;
+  }
+  .opt:hover { border-color: var(--blue); background: #f0f4ff; }
+  .opt input[type="radio"],
+  .opt input[type="checkbox"] { display: none; }
+  .bubble {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+    background: #fff;
+  }
+  .bubble-sq {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+    background: #fff;
+  }
+  .opt input[type="radio"]:checked ~ .bubble,
+  .opt input[type="checkbox"]:checked ~ .bubble-sq {
+    border-color: var(--blue);
+    background: var(--blue);
+  }
+  .opt input[type="radio"]:checked ~ .bubble::after {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .opt input[type="checkbox"]:checked ~ .bubble-sq::after {
+    content: '✓';
+    font-size: 11px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .opt input[type="radio"]:checked ~ span,
+  .opt input[type="checkbox"]:checked ~ span { color: var(--blue); font-weight: 500; }
+  .opt:has(input:checked) { border-color: var(--blue); background: #f0f4ff; }
+
+  /* Dropdown */
+  select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%231a3a6b'/%3E%3C/svg%3E") no-repeat right 14px center;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  select:focus { outline: none; border-color: var(--blue); }
+
+  /* Short answer */
+  textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    padding: 6px 0;
+    resize: none;
+    background: transparent;
+    transition: border-color 0.2s;
+    outline: none;
+    min-height: 38px;
+  }
+  textarea:focus { border-bottom-color: var(--blue); }
+  textarea::placeholder { color: var(--muted); }
+
+  /* Linear scale */
+  .scale-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .scale-opt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .scale-opt span { font-size: 12px; color: var(--muted); }
+  .scale-opt input { display: none; }
+  .scale-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .scale-opt:hover .scale-dot { border-color: var(--blue); color: var(--blue); }
+  .scale-opt input:checked ~ .scale-dot {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+
+  /* Submit */
+  .submit-wrap { max-width: 660px; margin: 0 auto; padding-top: 8px; }
+  .btn-submit {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit:hover { background: #22488a; }
+  .btn-submit:active { transform: scale(0.98); }
+
+  .footer-note {
+    max-width: 660px;
+    margin: 20px auto 0;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* Thank you */
+  #thankyou {
+    display: none;
+    max-width: 660px;
+    margin: 60px auto;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 52px 36px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  #thankyou .emoji { font-size: 48px; margin-bottom: 16px; }
+  #thankyou h2 { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--blue); }
+  #thankyou p { margin-top: 10px; font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div id="main-form">
+  <div class="form-wrap">
+
+    <!-- Header -->
+    <div class="header-card">
+      <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Globe circle halves -->
+        <defs>
+          <clipPath id="circ"><circle cx="100" cy="100" r="78"/></clipPath>
+          <linearGradient id="lgLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#4dd0e1"/>
+            <stop offset="100%" stop-color="#1976d2"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="78" fill="#1565c0"/>
+        <!-- Left arc lighter -->
+        <path d="M100,22 A78,78 0 0,0 100,178 L100,100 Z" fill="url(#lgLeft)" clip-path="url(#circ)"/>
+        <!-- EV letters cutout in white -->
+        <text x="52" y="125" font-family="Arial Black, sans-serif" font-weight="900" font-size="72" fill="white" letter-spacing="-4" clip-path="url(#circ)">EV</text>
+        <!-- Gold stars -->
+        <g fill="#f9c01b">
+          <polygon points="120,30 123,40 133,40 125,46 128,56 120,50 112,56 115,46 107,40 117,40" transform="scale(0.55) translate(103,20)"/>
+          <polygon points="120,30 123,40 133,40 125,46 128,56 120,50 112,56 115,46 107,40 117,40" transform="scale(0.55) translate(175,65)"/>
+          <polygon points="120,30 123,40 133,40 125,46 128,56 120,50 112,56 115,46 107,40 117,40" transform="scale(0.55) translate(160,140)"/>
+          <polygon points="120,30 123,40 133,40 125,46 128,56 120,50 112,56 115,46 107,40 117,40" transform="scale(0.55) translate(70,160)"/>
+          <polygon points="120,30 123,40 133,40 125,46 128,56 120,50 112,56 115,46 107,40 117,40" transform="scale(0.55) translate(25,100)"/>
+        </g>
+      </svg>
+      <h1>Euro Vasta – <span>Quick Survey</span></h1>
+      <p style="font-size:16px;font-style:italic;color:#e8c96a;font-weight:500;margin-bottom:10px">One Continent, One Card.</p>
+      <p>We're working on a single transport pass for all of Europe. Answer a few short questions to help us understand what people need. It takes less than 2 minutes!</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">1.</span>How often do you travel to other European countries?</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="entry.1107029684" value="Never"><div class="bubble"></div><span>Never</span></label>
+        <label class="opt"><input type="radio" name="entry.1107029684" value="Once a year or less"><div class="bubble"></div><span>Once a year or less</span></label>
+        <label class="opt"><input type="radio" name="entry.1107029684" value="A few times a year"><div class="bubble"></div><span>A few times a year</span></label>
+        <label class="opt"><input type="radio" name="entry.1107029684" value="Almost every month"><div class="bubble"></div><span>Almost every month</span></label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">2.</span>Have you ever had trouble using public transport in another country? (e.g. didn't understand the tickets, app didn't work, had to pay too much)</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="entry.20274385" value="Yes, it was a real problem"><div class="bubble"></div><span>Yes, it was a real problem</span></label>
+        <label class="opt"><input type="radio" name="entry.20274385" value="It was a bit confusing but okay"><div class="bubble"></div><span>It was a bit confusing but okay</span></label>
+        <label class="opt"><input type="radio" name="entry.20274385" value="No, it was fine"><div class="bubble"></div><span>No, it was fine</span></label>
+        <label class="opt"><input type="radio" name="entry.20274385" value="I've never used transport abroad"><div class="bubble"></div><span>I've never used transport abroad</span></label>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">3.</span>Which types of transport do you use the most when traveling? <em style="font-weight:300;color:var(--muted)">(pick all that apply)</em></p>
+      <div class="options">
+        <label class="opt"><input type="checkbox" name="entry.340295532" value="Bus"><div class="bubble-sq"></div><span>🚌 Bus</span></label>
+        <label class="opt"><input type="checkbox" name="entry.340295532" value="Metro"><div class="bubble-sq"></div><span>🚇 Metro / Subway</span></label>
+        <label class="opt"><input type="checkbox" name="entry.340295532" value="Tram"><div class="bubble-sq"></div><span>🚋 Tram</span></label>
+        <label class="opt"><input type="checkbox" name="entry.340295532" value="Train"><div class="bubble-sq"></div><span>🚆 Train</span></label>
+        <label class="opt"><input type="checkbox" name="entry.340295532" value="Ferry"><div class="bubble-sq"></div><span>⛴️ Ferry / Boat</span></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">4.</span>Would you use a single pass (app or physical card) that works on all public transport across Europe?</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="entry.1958740133" value="Yes, for sure!"><div class="bubble"></div><span>Yes, for sure!</span></label>
+        <label class="opt"><input type="radio" name="entry.1958740133" value="Maybe, depends on the price"><div class="bubble"></div><span>Maybe, depends on the price</span></label>
+        <label class="opt"><input type="radio" name="entry.1958740133" value="Not sure"><div class="bubble"></div><span>Not sure</span></label>
+        <label class="opt"><input type="radio" name="entry.1958740133" value="No, I don't think i'd need it"><div class="bubble"></div><span>No, I don't think i'd need it</span></label>
+      </div>
+    </div>
+
+    <!-- Q5 – Dropdown -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">5.</span>Which version of the pass would you prefer?</p>
+      <select name="entry.1690466985">
+        <option value="" disabled selected>Choose an option…</option>
+        <option value="App only">📱 App only</option>
+        <option value="Physical only">💳 Physical only</option>
+        <option value="Both">Both – I'd like to choose</option>
+        <option value="Doesn't matter to me">Doesn't matter to me</option>
+      </select>
+    </div>
+
+    <!-- Q6 – Scale -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">6.</span>How useful do you think this idea is? (1 = not useful at all, 5 = super useful)</p>
+      <div class="scale-row">
+        <label class="scale-opt"><span>1</span><input type="radio" name="entry.1322438797" value="1"><div class="scale-dot">1</div></label>
+        <label class="scale-opt"><span>2</span><input type="radio" name="entry.1322438797" value="2"><div class="scale-dot">2</div></label>
+        <label class="scale-opt"><span>3</span><input type="radio" name="entry.1322438797" value="3"><div class="scale-dot">3</div></label>
+        <label class="scale-opt"><span>4</span><input type="radio" name="entry.1322438797" value="4"><div class="scale-dot">4</div></label>
+        <label class="scale-opt"><span>5</span><input type="radio" name="entry.1322438797" value="5"><div class="scale-dot">5</div></label>
+      </div>
+      <div class="scale-labels"><span>Not useful</span><span>Super useful</span></div>
+    </div>
+
+    <!-- Q7 – Short answer -->
+    <div class="card">
+      <p class="q-label"><span class="qnum">7.</span>Is there anything you'd want this pass to include that we haven't mentioned? (optional)</p>
+      <textarea name="entry.1451753735" placeholder="Type your answer here…" rows="2"></textarea>
+    </div>
+
+  </div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="submitForm()">Submit →</button>
+  </div>
+
+  <p class="footer-note">Made by the Euro Vasta team · JAPortugal2025 · Your answers are anonymous</p>
+</div>
+
+<!-- Thank you screen -->
+<div id="thankyou">
+  <div class="emoji">🎉</div>
+  <h2>Thanks for answering!</h2>
+  <p>Your response helps us make the Euro Vasta pass better.<br>We really appreciate your time!</p>
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
+
+<script>
+  const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSdguoxl3xMyzTTk45n9J8Z__m0xGSG6uQXDGy6_SCL6tHHS0A/formResponse";
+
+  function submitForm() {
+    // Build a real <form> dynamically so we can append multiple inputs with the same name (needed for checkboxes)
+    const form = document.createElement('form');
+    form.action = FORM_ACTION;
+    form.method = 'POST';
+    form.target = 'hidden_iframe';
+    form.style.display = 'none';
+
+    function addField(name, value) {
+      if (value === null || value === undefined || value === '') return;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    // Q1 - radio
+    const q1 = document.querySelector('input[name="entry.1107029684"]:checked');
+    addField('entry.1107029684', q1 ? q1.value : '');
+
+    // Q2 - radio
+    const q2 = document.querySelector('input[name="entry.20274385"]:checked');
+    addField('entry.20274385', q2 ? q2.value : '');
+
+    // Q3 - checkboxes: each checked box needs its own field with the same name
+    document.querySelectorAll('input[name="entry.340295532"]:checked').forEach(cb => {
+      addField('entry.340295532', cb.value);
+    });
+
+    // Q4 - radio
+    const q4 = document.querySelector('input[name="entry.1958740133"]:checked');
+    addField('entry.1958740133', q4 ? q4.value : '');
+
+    // Q5 - dropdown
+    const q5 = document.querySelector('select[name="entry.1690466985"]');
+    addField('entry.1690466985', q5 ? q5.value : '');
+
+    // Q6 - scale
+    const q6 = document.querySelector('input[name="entry.1322438797"]:checked');
+    addField('entry.1322438797', q6 ? q6.value : '');
+
+    // Q7 - textarea (optional)
+    const q7 = document.querySelector('textarea[name="entry.1451753735"]');
+    addField('entry.1451753735', q7 ? q7.value : '');
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => document.body.removeChild(form), 1000);
+
+    document.getElementById('main-form').style.display = 'none';
+    document.getElementById('thankyou').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
